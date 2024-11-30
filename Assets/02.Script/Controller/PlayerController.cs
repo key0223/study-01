@@ -48,6 +48,11 @@ public class PlayerController : SingletonMonobehaviour<PlayerController>
                 _rigid.AddForce(Vector3.up * 5, ForceMode.Impulse);
             }
         }
+
+        if(Input.GetKeyDown(KeyCode.X))
+        {
+           EventManager.Instance.CallSpawnMonsterEvent();
+        }
     }
     void Move()
     {
