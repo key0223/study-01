@@ -15,7 +15,7 @@ public class ResourceManager : SingletonMonobehaviour<ResourceManager>
             int index = name.LastIndexOf('/');
             if (index >= 0)
                 name = name.Substring(index + 1);
-
+            
             // 만들어진 오브젝트가 있으면 풀에서 땡겨온다.
             GameObject go = PoolManager.Instance.GetOriginal(name);
             if (go != null)

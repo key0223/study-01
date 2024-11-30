@@ -60,8 +60,8 @@ public class PoolManager : SingletonMonobehaviour<PoolManager>
 
             poolable.gameObject.SetActive(true);
 
-            //if (parent == null)
-            //    poolable.transform.SetParent(Managers.Scene.CurrentScene.transform);
+            if (parent == null)
+                poolable.transform.SetParent(SceneManagerEx.Instance.CurrentScene.transform);
 
             poolable.transform.SetParent(parent, false);
             poolable.IsUsing = true;

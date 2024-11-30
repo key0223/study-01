@@ -1,5 +1,7 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UIElements;
 using static UnityEngine.GraphicsBuffer;
 using Input = UnityEngine.Input;
@@ -53,6 +55,11 @@ public class PlayerController : SingletonMonobehaviour<PlayerController>
         {
            EventManager.Instance.CallSpawnMonsterEvent();
         }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            StartCoroutine(CoEndPlay());
+        }
     }
     void Move()
     {
@@ -68,6 +75,14 @@ public class PlayerController : SingletonMonobehaviour<PlayerController>
         
     }
 
+    IEnumerator CoEndPlay()
+    {
+        EventManager.Instance.CallGameOverEvent();
+        yield return new WaitForSeconds(0.3f);
+
+        SceneManagerEx.Instance.LoadScene(Define.Scene.Scene3_End);
+
+    }
     #region Debug
 
     private void DrawCircle(Vector3 center, float radius)

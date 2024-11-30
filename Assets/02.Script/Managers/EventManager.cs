@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class EventManager : SingletonMonobehaviour<EventManager>
 {
     public event Action SpawnMonsterEvent;
+    public event Action GameOverEvent;
 
     protected override void Awake()
     {
@@ -16,4 +17,10 @@ public class EventManager : SingletonMonobehaviour<EventManager>
     {
        SpawnMonsterEvent?.Invoke();
     }
+
+    public void CallGameOverEvent()
+    {
+        GameOverEvent?.Invoke();
+    }
+
 }
