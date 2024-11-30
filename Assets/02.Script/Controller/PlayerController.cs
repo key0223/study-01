@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 using static UnityEngine.GraphicsBuffer;
 using Input = UnityEngine.Input;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : SingletonMonobehaviour<PlayerController>
 {
     [SerializeField]
     float _speed = 5f;
@@ -16,17 +16,38 @@ public class PlayerController : MonoBehaviour
 
     Transform _target;
 
-    void Awake()
+    protected override void Awake()
+    {
+        base.Awake();
+
+        Init();
+    }
+
+    void Init()
     {
         _rigid = GetComponent<Rigidbody>();
     }
+  
     void Update()
     {
         Vector3 startPosition = transform.position;
         DrawCircle(startPosition, _searchRange);
         DrawFieldOfView(startPosition);
+
+        KeyboardInput();
+    }
+
+    void KeyboardInput()
+    {
         Move();
-        Jump();
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                _rigid.AddForce(Vector3.up * 5, ForceMode.Impulse);
+            }
+        }
     }
     void Move()
     {
@@ -36,16 +57,12 @@ public class PlayerController : MonoBehaviour
 
         Vector3 move = new Vector3(horizontal * _speed, 0, vertical * _speed) * Time.deltaTime;
         _rigid.MovePosition(_rigid.position + move);
+
+        Vector3 point = transform.position;  
+        Vector3 size = new Vector3(_searchRange, _searchRange, _searchRange);
+        
     }
 
-    void Jump()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            _rigid.AddForce(Vector3.up * 5, ForceMode.Impulse);
-        }
-    }
-  
     #region Debug
 
     private void DrawCircle(Vector3 center, float radius)
@@ -71,7 +88,6 @@ public class PlayerController : MonoBehaviour
         Debug.DrawLine(startPosition, startPosition + viewAngleA, Color.white);
         Debug.DrawLine(startPosition, startPosition + viewAngleB, Color.white);
 
-        // 부채꼴 내부 채우기
         int resolution = 20;
         for (int i = 0; i < resolution; i++)
         {
